@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
+// Routes
+const auth_route_1 = __importDefault(require("./routes/auth.route"));
 const app = (0, express_1.default)();
 app.set('port', process.env.PORT || 3000);
 app.get('/', (req, res) => {
@@ -22,4 +24,6 @@ const corsOptions = {
     optionSuccessStatus: 200
 };
 app.use((0, cors_1.default)());
+// Routes
+app.use('/api/auth', auth_route_1.default);
 exports.default = app;

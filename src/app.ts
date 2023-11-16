@@ -1,7 +1,8 @@
 import express, { Application } from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
-import path from 'path';
+// Routes
+import authRoutes from './routes/auth.route';
 
 
 const app: Application = express();
@@ -18,14 +19,16 @@ if(!process.env.PRODUCTIO_MODE) {
 }
 app.use(express.json());
 
-
-
 const corsOptions ={
     origin:'http://localhost:8100', 
     credentials:true,            //access-control-allow-credentials:true
     optionSuccessStatus:200
 }
 app.use(cors());
+
+// Routes
+app.use('/api/auth', authRoutes);
+
 
 
 export default app;

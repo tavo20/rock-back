@@ -2,12 +2,10 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import User, { IUser } from "../models/User";
 
-
 export const login = async (req: Request, res: Response) => {
   try {
     let { email, password } = req.body;
     let user = await User.findOne({ email: email });
-    console.log("user", user);
     if (!user) {
       return res.json({ msg: "Usuario no encontrado", success: false, code: 'no-found' });
     }
@@ -30,7 +28,6 @@ export const login = async (req: Request, res: Response) => {
         _id: user._id,
         name: user.name,
         email: user.email,
-        role: user.role,
       };
 
     return res.json({ success: true, data: response });
@@ -40,3 +37,52 @@ export const login = async (req: Request, res: Response) => {
     
   }
 };
+
+
+export const signup = async (req: Request, res: Response) => {
+  try {
+    let { name, email, password, user } = req.body;
+
+    const validEmail = await User.findOne({ email });
+    if (validEmail) {
+      return res.json({
+        message: "The user is already registered",
+        code: "auth-already-register",
+        success: false,
+      });
+    }
+
+    let userBody: IUser = new User({
+      name,
+      email,
+      password,
+      user,
+    });
+    userBody.password = await userBody.encryptPassword(password);
+
+    // Save user in the database.
+    const saveUser = await userBody.save();
+
+    const token: string = jwt.sign(
+      { _id: saveUser._id },
+      process.env.TOKEN_SECRET_JWT || "holamundo",
+    //   { expiresIn: "h" }
+    );
+
+    const response = {
+      _id: saveUser._id,
+      name: saveUser.name,
+      email: saveUser.email,
+      user: saveUser.user,
+      token,
+    };
+
+    res.json({ response, success: true });
+
+  } catch (error: any) {
+    const err = error instanceof Error ? error.message : error;
+    console.error("error signup controller user", err.message);
+    res.json({ message: "error", success: false, error: err });
+    
+  }
+}
