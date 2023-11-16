@@ -1,11 +1,12 @@
-import { Schema, model } from 'mongoose';
-
-const recordSenserSchema = new Schema({
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const mongoose_1 = require("mongoose");
+const recordSenserSchema = new mongoose_1.Schema({
     sensor: {
-        type: Schema.Types.ObjectId,
+        type: mongoose_1.Schema.Types.ObjectId,
         ref: "Sensor",
         required: true,
-      },
+    },
     timestamp: {
         type: Date,
         require: true,
@@ -37,5 +38,4 @@ const recordSenserSchema = new Schema({
         require: true
     }
 });
-
-export default model('record', recordSenserSchema);
+exports.default = (0, mongoose_1.model)('record', recordSenserSchema);

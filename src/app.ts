@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 // Routes
 import authRoutes from './routes/auth.route';
+import recordSenserRoutes from './routes/recordSensor.route';
 
 
 const app: Application = express();
@@ -28,6 +29,7 @@ app.use(cors());
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/record/sensor', recordSenserRoutes);
 
 
 

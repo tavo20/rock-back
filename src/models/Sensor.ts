@@ -2,7 +2,7 @@ import { Schema, model } from 'mongoose';
 
 const sensorSchema = new Schema({
     sensor_id: {
-        type: Number,
+        type: String,
         require: true,
     },
     sensor_name: {
