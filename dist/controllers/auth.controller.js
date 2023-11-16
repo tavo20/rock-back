@@ -17,23 +17,23 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const User_1 = __importDefault(require("../models/User"));
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let { email, password } = req.body;
-        let user = yield User_1.default.findOne({ email: email });
-        if (!user) {
+        let { user, password } = req.body;
+        let userFond = yield User_1.default.findOne({ user });
+        if (!userFond) {
             return res.json({ msg: "Usuario no encontrado", success: false, code: 'no-found' });
         }
-        let correctPassword = yield (user === null || user === void 0 ? void 0 : user.validatePassword(password, user.password));
+        let correctPassword = yield (userFond === null || userFond === void 0 ? void 0 : userFond.validatePassword(password, userFond.password));
         if (!correctPassword) {
             return res.json({ msg: "Contraseña incorrecta", success: false, code: 'no-password' });
         }
-        const token = jsonwebtoken_1.default.sign({ _id: user._id }, process.env.TOKEN_SECRET_JWT || "holamundo", {
+        const token = jsonwebtoken_1.default.sign({ _id: userFond._id }, process.env.TOKEN_SECRET_JWT || "holamundo", {
         // expiresIn: 60 * 60 * 24 // El token servira para siempre...
         });
         const response = {
             token,
-            _id: user._id,
-            name: user.name,
-            email: user.email,
+            _id: userFond._id,
+            name: userFond.name,
+            email: userFond.email,
         };
         return res.json({ success: true, data: response });
     }

@@ -4,19 +4,19 @@ import User, { IUser } from "../models/User";
 
 export const login = async (req: Request, res: Response) => {
   try {
-    let { email, password } = req.body;
-    let user = await User.findOne({ email: email });
-    if (!user) {
+    let { user, password } = req.body;
+    let userFond = await User.findOne({ user });
+    if (!userFond) {
       return res.json({ msg: "Usuario no encontrado", success: false, code: 'no-found' });
     }
 
-    let correctPassword = await user?.validatePassword(password, user.password);
+    let correctPassword = await userFond?.validatePassword(password, userFond.password);
     if (!correctPassword) {
         return res.json({ msg: "Contraseña incorrecta", success: false, code:'no-password' });
     }
 
     const token: string = jwt.sign(
-        { _id: user._id },
+        { _id: userFond._id },
         process.env.TOKEN_SECRET_JWT || "holamundo",
         {
           // expiresIn: 60 * 60 * 24 // El token servira para siempre...
@@ -25,9 +25,9 @@ export const login = async (req: Request, res: Response) => {
 
     const response = {
         token,
-        _id: user._id,
-        name: user.name,
-        email: user.email,
+        _id: userFond._id,
+        name: userFond.name,
+        email: userFond.email,
       };
 
     return res.json({ success: true, data: response });
