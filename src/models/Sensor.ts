@@ -11,6 +11,11 @@ const sensorSchema = new Schema({
         trim: true,
         unique: true
     },
+    type: {
+        type: String,
+        enum: ['Temperatura', 'Humedad', 'Presión', 'Velocidad del viento', 'Nivel de ruido', 'Calidad del aire', 'Meteorológico', 'Clima', 'Ambiental'],
+        require: true
+    }
 });
 
 export default model('Sensor', sensorSchema);
