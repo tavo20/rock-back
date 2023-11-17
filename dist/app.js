@@ -9,6 +9,7 @@ const cors_1 = __importDefault(require("cors"));
 // Routes
 const auth_route_1 = __importDefault(require("./routes/auth.route"));
 const recordSensor_route_1 = __importDefault(require("./routes/recordSensor.route"));
+const sensor_route_1 = __importDefault(require("./routes/sensor.route"));
 const app = (0, express_1.default)();
 app.set('port', process.env.PORT || 3000);
 app.get('/', (req, res) => {
@@ -28,4 +29,5 @@ app.use((0, cors_1.default)());
 // Routes
 app.use('/api/auth', auth_route_1.default);
 app.use('/api/record/sensor', recordSensor_route_1.default);
+app.use('/api/sensor', sensor_route_1.default);
 exports.default = app;
