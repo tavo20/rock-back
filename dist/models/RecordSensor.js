@@ -37,5 +37,7 @@ const recordSenserSchema = new mongoose_1.Schema({
         enum: ['Buena', 'Moderada', 'Mala', 'Muy mala', 'Extremadamente mala'],
         require: true
     }
+}, {
+    timestamps: true,
 });
 exports.default = (0, mongoose_1.model)('record', recordSenserSchema);

@@ -1,12 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-
 interface IPayload {
     _id: string;
     iat: number;
     exp: number;
 }
-
 
 export const TokenValidation = (req: Request, res: Response, next: NextFunction) => {
     let token: string = req.header('Authorization') || '';
@@ -16,7 +14,6 @@ export const TokenValidation = (req: Request, res: Response, next: NextFunction)
 
     // declaration mergin
     req.userId = payload._id;
-
     next();
 
 }

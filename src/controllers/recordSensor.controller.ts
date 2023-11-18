@@ -13,11 +13,12 @@ export const create = async (req: Request, res: Response) => {
   }
 };
 
-
 export const getDataBySensor = async (req: Request, res: Response) => {
   try {
       const { id } = req.params;
-      const sensor = await RecordSensor.find({ sensor: id }).limit(10).sort({ timestamp: -1 });
+      const { limit } = req.query;
+      const limitQuery = limit ? Number(limit) : 25;
+      const sensor = await RecordSensor.find({ sensor: id }).limit(limitQuery).sort({ timestamp: -1 });
       res.json(sensor);
 
   } catch (error: any) {

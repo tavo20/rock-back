@@ -16,7 +16,7 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 //middlewares
-if (!process.env.PRODUCTIO_MODE) {
+if (!process.env.PRODUCTION_MODE) {
     app.use((0, morgan_1.default)('dev'));
 }
 app.use(express_1.default.json());

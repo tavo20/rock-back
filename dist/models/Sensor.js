@@ -17,5 +17,7 @@ const sensorSchema = new mongoose_1.Schema({
         enum: ['Temperatura', 'Humedad', 'Presión', 'Velocidad del viento', 'Nivel de ruido', 'Calidad del aire', 'Meteorológico', 'Clima', 'Ambiental'],
         require: true
     }
+}, {
+    timestamps: true,
 });
 exports.default = (0, mongoose_1.model)('Sensor', sensorSchema);

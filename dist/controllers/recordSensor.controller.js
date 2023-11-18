@@ -29,7 +29,9 @@ exports.create = create;
 const getDataBySensor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const sensor = yield RecordSensor_1.default.find({ sensor: id }).limit(10).sort({ timestamp: -1 });
+        const { limit } = req.query;
+        const limitQuery = limit ? Number(limit) : 25;
+        const sensor = yield RecordSensor_1.default.find({ sensor: id }).limit(limitQuery).sort({ timestamp: -1 });
         res.json(sensor);
     }
     catch (error) {

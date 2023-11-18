@@ -18,27 +18,27 @@ const User_1 = __importDefault(require("../models/User"));
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let { user, password } = req.body;
-        let userFond = yield User_1.default.findOne({ user });
-        if (!userFond) {
+        let userFound = yield User_1.default.findOne({ user });
+        if (!userFound) {
             return res.json({ msg: "Usuario no encontrado", success: false, code: 'no-found' });
         }
-        let correctPassword = yield (userFond === null || userFond === void 0 ? void 0 : userFond.validatePassword(password, userFond.password));
+        let correctPassword = yield (userFound === null || userFound === void 0 ? void 0 : userFound.validatePassword(password, userFound.password));
         if (!correctPassword) {
             return res.json({ msg: "Contraseña incorrecta", success: false, code: 'no-password' });
         }
-        const token = jsonwebtoken_1.default.sign({ _id: userFond._id }, process.env.TOKEN_SECRET_JWT || "holamundo", {
-        // expiresIn: 60 * 60 * 24 // El token servira para siempre...
-        });
+        const token = createTokenJWT(userFound);
         const response = {
             token,
-            _id: userFond._id,
-            name: userFond.name,
-            email: userFond.email,
+            _id: userFound._id,
+            name: userFound.name,
+            email: userFound.email,
         };
         return res.json({ success: true, data: response });
     }
     catch (error) {
-        res.json({ message: error.message, success: false });
+        const err = error instanceof Error ? error.message : error;
+        console.error("error login controller user", err);
+        res.status(400).json({ message: err, success: false });
     }
 });
 exports.login = login;
@@ -62,7 +62,7 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         userBody.password = yield userBody.encryptPassword(password);
         // Save user in the database.
         const saveUser = yield userBody.save();
-        const token = jsonwebtoken_1.default.sign({ _id: saveUser._id }, process.env.TOKEN_SECRET_JWT || "holamundo");
+        const token = createTokenJWT(saveUser);
         const response = {
             _id: saveUser._id,
             name: saveUser.name,
@@ -75,7 +75,18 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     catch (error) {
         const err = error instanceof Error ? error.message : error;
         console.error("error signup controller user", err.message);
-        res.json({ message: "error", success: false, error: err });
+        res.status(400).json({ message: "error", success: false, error: err });
     }
 });
 exports.signup = signup;
+const getTokenJWT = (req) => {
+    const token = req.headers["x-access-token"];
+    if (!token) {
+        return null;
+    }
+    return token;
+};
+const createTokenJWT = (user) => {
+    const token = jsonwebtoken_1.default.sign({ _id: user._id }, process.env.TOKEN_SECRET_JWT || "holamundo");
+    return token;
+};

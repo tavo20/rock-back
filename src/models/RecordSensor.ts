@@ -36,6 +36,8 @@ const recordSenserSchema = new Schema({
         enum: ['Buena', 'Moderada', 'Mala', 'Muy mala', 'Extremadamente mala'],
         require: true
     }
+},{
+    timestamps: true,
 });
 
 export default model('record', recordSenserSchema);

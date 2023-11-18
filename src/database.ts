@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-
 const DATABASE_CONECTION = process.env.DATABASE_CONECTION || "";
 
 mongoose

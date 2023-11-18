@@ -1,11 +1,11 @@
 import express, { Application } from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
+
 // Routes
 import authRoutes from './routes/auth.route';
 import recordSenserRoutes from './routes/recordSensor.route';
 import sensorRoutes from './routes/sensor.route';
-
 
 const app: Application = express();
 app.set('port', process.env.PORT || 3000);
@@ -14,9 +14,8 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 })
 
-
 //middlewares
-if(!process.env.PRODUCTIO_MODE) {
+if(!process.env.PRODUCTION_MODE) {
     app.use(morgan('dev'));
 }
 app.use(express.json());
@@ -32,7 +31,5 @@ app.use(cors());
 app.use('/api/auth', authRoutes);
 app.use('/api/record/sensor', recordSenserRoutes);
 app.use('/api/sensor', sensorRoutes);
-
-
 
 export default app;

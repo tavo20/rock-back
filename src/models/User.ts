@@ -1,7 +1,5 @@
 import { Schema, model, Document } from 'mongoose';
 import bcry from 'bcryptjs';
-
-
 export interface IUser  extends Document {
     name: string,
     email: string,
@@ -12,7 +10,6 @@ export interface IUser  extends Document {
     _id: string
     token?: string
 };
-
 
 const userSchema = new Schema({
     name: {
@@ -42,7 +39,6 @@ const userSchema = new Schema({
 }, {
     timestamps: true
 });
-
 
 userSchema.methods.encryptPassword = async (password: string): Promise<string> => {
     const salt = await bcry.genSalt(10);
