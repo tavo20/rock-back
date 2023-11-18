@@ -4,7 +4,7 @@ const router: Router = Router();
 import { TokenValidation } from '../libs/verifyToken';
 import { getAllSensors, getOne } from '../controllers/sensor.controller';
 
-router.get('/all', getAllSensors);
-router.get('/get/:id', getOne);
+router.get('/all',TokenValidation, getAllSensors);
+router.get('/get/:id', TokenValidation, getOne);
 
 export default router;

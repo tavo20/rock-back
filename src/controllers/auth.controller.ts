@@ -5,6 +5,7 @@ import User, { IUser } from "../models/User";
 export const login = async (req: Request, res: Response) => {
   try {
     let { user, password } = req.body;
+    
     let userFound = await User.findOne({ user });
     if (!userFound) {
       return res.json({ msg: "Usuario no encontrado", success: false, code: 'no-found' });
