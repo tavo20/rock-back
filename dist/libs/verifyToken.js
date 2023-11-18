@@ -8,8 +8,6 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const TokenValidation = (req, res, next) => {
     try {
         const token = req.header('Authorization') || '';
-        console.log(token);
-        console.log('process.env.TOKEN_SECRET_JWT', process.env.TOKEN_SECRET_JWT);
         if (!token)
             res.status(401).json('Access denied');
         const payload = jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET_JWT || '');
