@@ -18,8 +18,8 @@ export const getDataBySensor = async (req: Request, res: Response) => {
       const { id } = req.params;
       const { limit } = req.query;
       const limitQuery = limit ? Number(limit) : 25;
-      const sensor = await RecordSensor.find({ sensor: id }).limit(limitQuery).sort({ timestamp: -1 });
-      res.json(sensor);
+      const sensor = await RecordSensor.find({ sensor: id }).limit(limitQuery).sort({ timestamp: -1 }); 
+      res.json(sensor.reverse());
 
   } catch (error: any) {
       const err = error.message || error;

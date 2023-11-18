@@ -32,7 +32,7 @@ const getDataBySensor = (req, res) => __awaiter(void 0, void 0, void 0, function
         const { limit } = req.query;
         const limitQuery = limit ? Number(limit) : 25;
         const sensor = yield RecordSensor_1.default.find({ sensor: id }).limit(limitQuery).sort({ timestamp: -1 });
-        res.json(sensor);
+        res.json(sensor.reverse());
     }
     catch (error) {
         const err = error.message || error;
