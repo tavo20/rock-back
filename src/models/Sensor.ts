@@ -20,4 +20,7 @@ const sensorSchema = new Schema({
     timestamps: true,
 });
 
+// haz un watcher para los cambios en el modelo
+sensorSchema.post('save', function(doc, next) {});
+
 export default model('Sensor', sensorSchema);

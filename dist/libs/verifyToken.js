@@ -11,7 +11,6 @@ const TokenValidation = (req, res, next) => {
         if (!token)
             res.status(401).json('Access denied');
         const payload = jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET_JWT || '');
-        console.log('payload', payload);
         // declaration mergin
         req.userId = payload._id;
         next();

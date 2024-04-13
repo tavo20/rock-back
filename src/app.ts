@@ -1,6 +1,7 @@
 import express, { Application } from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
+import { createServer } from "http";
 
 // Routes
 import authRoutes from './routes/auth.route';
@@ -8,6 +9,8 @@ import recordSenserRoutes from './routes/recordSensor.route';
 import sensorRoutes from './routes/sensor.route';
 
 const app: Application = express();
+let server = createServer(app);
+
 app.set('port', process.env.PORT || 3000);
 
 app.get('/', (req, res) => {
@@ -32,4 +35,4 @@ app.use('/api/auth', authRoutes);
 app.use('/api/record/sensor', recordSenserRoutes);
 app.use('/api/sensor', sensorRoutes);
 
-export default app;
+export { app, server };
